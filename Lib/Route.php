@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types= 1);
 namespace Lib;
 
 class Route
@@ -28,7 +28,6 @@ class Route
 
         $uri = trim($uri, '/');
 
-        // Handle query parameters
         if (strpos($uri, '?')) {
             $uri = substr($uri, 0, strpos($uri, '?'));
         }
@@ -36,10 +35,6 @@ class Route
         $method = $_SERVER['REQUEST_METHOD'];
 
         foreach (self::$routes[$method] as $route => $callback) {
-            // Handle wildcards or strict matching
-            // For now, strict matching as per original code, but with better normalization
-
-            // Normalize route for comparison
             if (trim($route, '/') == $uri) {
                 $callback();
                 return;
