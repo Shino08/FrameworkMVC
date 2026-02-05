@@ -5,11 +5,11 @@ namespace Lib;
 
 class Model
 {
-    // Placeholder for database connection logic
-    // protected $db;
+    protected $db;
 
     public function __construct()
     {
-        // $this->db = new Database();
+        // En una app real, instanciarías la conexión PDO aquí
+        // $this->db = new \PDO('mysql:host=localhost;dbname=test', 'root', '');
     }
 }

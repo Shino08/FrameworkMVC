@@ -7,6 +7,17 @@ class Controller
 {
     public function view(string $view, array $data = [])
     {
+        // Calcular la URL base del proyecto (para soportar subcarpetas)
+        // Ej: transforma '/opt/lampp/.../public/index.php' en '/frameworkMVC/public'
+        $scriptName = $_SERVER['SCRIPT_NAME'];
+        $baseUrl = str_replace('/index.php', '', $scriptName);
+
+        // Asegurar que no haya barra al final para consistencia
+        $baseUrl = rtrim($baseUrl, '/');
+
+        // Inyectar base_url en los datos
+        $data['base_url'] = $baseUrl;
+
         extract($data);
         $viewPath = '../App/Views/' . $view . '.php';
 
