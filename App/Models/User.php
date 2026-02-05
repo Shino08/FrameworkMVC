@@ -47,25 +47,19 @@ class User extends Model
 
     public function register(string $email, string $name, string $lastname, string $password): ?array
     {
-        $userRegister = [
-            [
-                'id' => 1,
-                'lastname' => 'guillermo',
-                'email' => 'admin@test.com',
-                'password' => '123456',
-                'name' => 'Administrador'
-            ]
-        ];
-
-        foreach ($userRegister as $userR) {
-            if ($userR['email'] === $email && $userR['name'] === $name && $userR['lastname'] === $lastname 
-            && $userR['password'] === $password 
-            ) 
-            {
-                return $userR;
-            }
+        // 1. Validar si el usuario ya existe (usando la "base de datos" simulada)
+        if ($this->findByEmail($email)) {
+            return null; // El usuario ya existe
         }
 
-        return null;
+        // 2. Crear el nuevo usuario (Simulación)
+        // En una app real, aquí haríamos: $this->db->query("INSERT INTO users...")
+        return [
+            'id' => rand(3, 100), // ID aleatorio simulado
+            'email' => $email,
+            'password' => $password, // En producción debe ser hasheado
+            'name' => $name,
+            'lastname' => $lastname
+        ];
     }
 }

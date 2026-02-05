@@ -58,44 +58,37 @@ class AuthController extends Controller
         exit;
     }
 
-    public function showRegister(){
-        $this->view('auth/register', ['title'=> 'Registro']);
+    public function showRegister()
+    {
+        $this->view('auth/register', ['title' => 'Registro']);
     }
 
-    public function register(){
+    public function register()
+    {
+        // 1. Obtener datos del formulario
+        $email = $_POST['email'] ?? '';
+        $password = $_POST['password'] ?? '';
+        $name = $_POST['name'] ?? '';
+        $lastname = $_POST['lastname'] ?? '';
 
-        $email = $_POST['email'];
-        $password = $_POST['password'];
-        $name = $_POST['name'];
-        $lastname = $_POST['lastname'];
-        
-        var_dump($email);
-        var_dump($password);
-        var_dump($name);
-        var_dump($lastname);
-        
-        $userRegister = new User();
+        // 2. Instanciar el modelo
+        $userModel = new User();
 
-        $user = $userRegister->register($email, $name, $lastname, $password);
+        // 3. Intentar registrar
+        $user = $userModel->register($email, $name, $lastname, $password);
 
-        var_dump($user);
-
-        if (isset($user)) {
-
-            header('Location: /frameworkMVC/public/register');
-            $this->view('auth/register', [
-                'title' => 'Iniciar Sesión',
-                'error' => 'Credenciales incorrectas',
-                'email' => $email
-            ]);
+        if ($user) {
+            // Éxito: El usuario fue registrado (simulado)
+            // Redirigimos al login para que inicie sesión
+            header('Location: /frameworkMVC/public/login');
             exit;
         } else {
+            // Fallo: El usuario ya existe o hubo error
             $this->view('auth/register', [
-                'title' => 'Registro exitoso',
-                'error' => 'Sin errores',
+                'title' => 'Registro',
+                'error' => 'El correo electrónico ya está registrado',
                 'email' => $email
             ]);
         }
-
     }
 }
